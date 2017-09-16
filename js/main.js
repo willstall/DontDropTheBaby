@@ -1,3 +1,5 @@
+var textOutput;
+
 function main()
 {
 	// Setup
@@ -16,7 +18,11 @@ function main()
 	var lookAtComponent = new LookAtComponent();
 	var rotateComponent = new RotateComponent();
 		rotateComponent.increment = 0.5
-
+		
+	// Debug Output
+		textOutput = new createjs.Text("","Arial 20px", "#000000");
+		textOutput.x = textOutput.y = 10;
+		
 	// Display 
 	var test1 = new createjs.Shape();
 		test1.graphics.beginFill("DeepSkyBlue").rect(-25,-25,50,50);
@@ -40,6 +46,9 @@ function main()
 		lookAtComponent.target = test2;
 		//test2.on("tick", update);
 
+	// Accelorometer
+	window.ondevicemotion = onDeviceMotion;
+	
 	// Extension
   	var extend_test = new ExtendedContainer();
 		extend_test.output();
@@ -48,7 +57,16 @@ function main()
 	container.AddComponent( rotateComponent );
 	container.SetComponentsUpdate( true );
 
+	stage.addChild( textOutput );
+}
 
+function onDeviceMotion( event )
+{
+	var x = event.accelerationIncludingGravity.x;  
+	var y = event.accelerationIncludingGravity.y;  
+	var z = event.accelerationIncludingGravity.z; 
+	
+	textOutput.Debug(x,y,z);
 }
 
 function keyPressed( event )
