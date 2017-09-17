@@ -1,4 +1,5 @@
 var baby;
+var babyBody;
 var gameTitle;
 var textOutput;
 var explosions;
@@ -8,8 +9,9 @@ var config = {
 	hitForce: 50,
 	babyFriction: .99,
 	touchIndicatorSize: 30,
-	gravity: .5,
+	gravity: 0.5,
 	rotationEase: .01,
+	bodyRotationEase: .01,
 	resetTime: 1500
 };
 var manifest = [
@@ -125,11 +127,16 @@ function applicationReady( event )
 	var offset = new SpringComponent();
 		offset.target = baby;
 
-	var babyBody = new BabyBody();
-		babyBody.AddComponent( offset );
+	var bodySping = new SpinComponent();		
+		bodySping.ease = config.bodyRotationEase;
+		bodySping.targetRotation = Math.random() * 360;
+
+		babyBody = new BabyBody();
+		babyBody.AddComponent( bodySping );
+// 	babyBody.AddComponent( offset );		
 		babyBody.SetComponentsUpdate( true );
 	
-	container.addChild( titleContainer, explosions, babyBody, baby );
+	container.addChild( titleContainer, explosions, baby, babyBody );
 	// container.addChild( testBaby );
 
 	stage.addChild( background );
@@ -217,6 +224,9 @@ function babyHit( event )
 	
 	component = baby.GetComponent( SpinComponent );
 	component.targetRotation += angle + 360;
+
+	component = babyBody.GetComponent( SpinComponent );
+	component.targetRotation += angle + 3600;
 
 	hits++;
 	updateTitle();
@@ -411,4 +421,7 @@ function update( event )
 	textOutput.Debug( component.velocity.y );
 	
 	//textOutput.Debug( baby.y );
+
+	babyBody.x = baby.x;
+	babyBody.y = baby.y;
 }

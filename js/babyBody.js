@@ -38,11 +38,11 @@
             arm2.y = -11; 
         var core = new createjs.Container();
             core.regY = -32;
-            core.y = 100;
-            // core.addChild( arm1, arm2,leg1, leg2, body, pants  );            
+            core.y = 90;
+            core.addChild( arm1, arm2,leg1, leg2, body, pants  );            
 
-        // this.addChild( core );
-        this.addChild( arm1, arm2,leg1, leg2, body, pants );            
+        this.addChild( core );
+       //this.addChild( arm1, arm2,leg1, leg2, body, pants );            
 
         // this.on("tick", this.OnUpdate, this);
     }

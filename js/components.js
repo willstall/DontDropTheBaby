@@ -36,7 +36,24 @@
 //     graphics.moveTo(ball.x, ball.y);
 //     graphics.lineTo(mouseX, mouseY);
 
+// SPRING COMPONENT
+    // function SpringComponent()
+    // {
 
+    //     this.velocity = new createjs.Point();
+    // }
+    // var p = createjs.extend( SpringComponent, Component );
+    // p.OnUpdate = function( event )
+    // {
+    //     if( this.target == null)
+    //         return;
+
+    //    var pos = this.parent.GetPosition();
+    //    var targetPos = this.target.GetPosition();
+
+    //     var d = 
+
+    // }
 // OFFSET SPRING COMPONENT
     function SpringComponent()
     {
@@ -51,13 +68,11 @@
         if( this.target == null)
             return;
 
-        //var sub = this.GetPostion().subtract( target.GetPostion());
-            //sub = subtract.normalized();
         var pos = this.parent.GetPosition();
         var targetPos = this.target.GetPosition();
-        var angle = pos.degreesTo( targetPos );
-        var targetX = pos.x + Math.cos(angle) * this.distance;
-        var targetY = pos.y + Math.sin(angle) * this.distance;
+        var angle = targetPos.degreesTo( pos );
+        var targetX = pos.x - Math.cos(angle) * this.distance;
+        var targetY = pos.y - Math.sin(angle) * this.distance;
         this.velocity.x += (targetX - targetPos.x) * this.spring;
         this.velocity.y += (targetY - targetPos.y) * this.spring;
         this.velocity.x *= this.friction;
