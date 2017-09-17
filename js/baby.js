@@ -11,6 +11,8 @@
         // this.bitmap.regX = this.bitmap.regY = size* .5;        
 
        // this.addChild( this.bitmap );
+       var screaming = createjs.Sound.play("screaming");
+
         var hair1 = new createjs.Bitmap( applicationData.getResult( "part_7" ).src );
             hair1.regX = hair1.regY = 124;
             hair1.y = -100;

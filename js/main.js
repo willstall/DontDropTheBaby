@@ -13,6 +13,7 @@ var config = {
 	resetTime: 1500
 };
 var manifest = [
+		{src:"audio/yuck.wav", id: "screaming"},
 		{src:"img/toy_1.png", id: "toy_1"},
 		{src:"img/toy_2.png", id: "toy_2"},
 		{src:"img/toy_3.png", id: "toy_3"},
@@ -79,9 +80,9 @@ function applicationReady( event )
 		backgroundScale.amplitude = new createjs.Point( .01,.01);
 		backgroundScale.frequency = 5;
 
-		gameTitle = new createjs.Text("", "80 Comfortaa");
+		gameTitle = new createjs.Text("", "80 Dosis");
 		gameTitle.color = "#2e99c0";
-		gameTitle.outline = 10;
+		//gameTitle.outline = 10;
 		gameTitle.textAlign = "center";
 		gameTitle.textBaseline = "middle";
 		if (ratio )
