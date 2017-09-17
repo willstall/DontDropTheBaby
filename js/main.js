@@ -10,7 +10,7 @@ var config = {
 	rotationEase: .01
 };
 var manifest = [
-		{id: "face", src:"img/baby.png"}
+		{src:"img/baby.png", id: "face"}
 ];
 
 var applicationData;
@@ -34,6 +34,7 @@ function applicationError( event )
 
 function applicationReady( event )
 {
+	console.log( event );
 
 	document.onkeydown = keyPressed;
 	
@@ -49,8 +50,10 @@ function applicationReady( event )
 	//var translateBaby = new TranslateComponent();
 	var velocityBaby = new VelocityComponent();
 		velocityBaby.friction = config.babyFriction;
-		
-	var babyFace = new createjs.Bitmap( applicationData.getResult("face") );
+	
+	var img = applicationData.getResult("face");	
+	var babyFace = new createjs.Bitmap( img );
+//		babyFace.setTransform( 100,100,4,4 );
 		
 //		console.log( applicationData.getResult("babyImg") );
 //		babyFace.image.onload = function() { 
@@ -78,8 +81,6 @@ function applicationReady( event )
 		
 	container.addChild( baby );
 	container.addChild( babyFace );
-
-	console.log( babyFace );
 	
 	stage.addChild( textOutput );
 	stage.on("tick", update, this);
