@@ -27,9 +27,9 @@ function main()
 		baby.AddComponent( rotateBaby );
 		baby.AddComponent( velocityBaby );
 		baby.SetComponentsUpdate( true );
-		baby.on("ontouchstart", babyHit, this);
-		baby.on("onmousedown", babyHit, this );
-		
+		baby.on("mousedown", babyHit, this);
+//		baby.on("onmousedown", babyHit, this );
+//		baby.mouseEnabled = true;
 		
 	container.addChild( baby );
 	
@@ -96,9 +96,13 @@ function main()
 
 function babyHit( event )
 {
-	console.log("baby hit");
+	var force = 50;
+	var mp = container.globalToLocal( stage.mouseX , stage.mouseY );
+	var angle = baby.GetPosition().degreesTo( mp );	  
+	
 	var component = baby.GetComponent( VelocityComponent );
-		component.velocity.y += -20;	
+		component.velocity.y += Math.sin( angle ) * force;
+		component.velocity.x += Math.cos( angle ) * force
 }
 
 function mouseMove( event )
