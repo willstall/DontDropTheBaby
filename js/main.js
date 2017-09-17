@@ -10,7 +10,7 @@ var config = {
 	rotationEase: .01
 };
 var manifest = [
-		{src:"img/baby.png", id: "face"}
+		{src:"img/baby_small.png", id: "face"}
 ];
 
 var applicationData;
@@ -27,6 +27,7 @@ function main()
 	applicationData.loadManifest( manifest );
 }
 
+
 function applicationError( event )
 {
 	console.log( event.data );
@@ -34,8 +35,6 @@ function applicationError( event )
 
 function applicationReady( event )
 {
-	console.log( event );
-
 	document.onkeydown = keyPressed;
 	
 	document.ontouchstart = ( mouseDown ).bind( this );
@@ -44,46 +43,60 @@ function applicationReady( event )
 	document.onmousedown = ( mouseDown ).bind( this );
 //	document.onmouseup = ( mouseUp ).bind( this );
 //	document.onmousemove = ( mouseMove ).bind( this );
-			
+
 	var spinBaby = new SpinComponent();
 		spinBaby.ease = config.rotationEase;
+		spinBaby.targetRotation = Math.random() * 360;
 	//var translateBaby = new TranslateComponent();
 	var velocityBaby = new VelocityComponent();
 		velocityBaby.friction = config.babyFriction;
 	
+	var babyScale = new OscillateScaleComponent();
+		babyScale.amplitude = new createjs.Point( .1,.1);
+		
+	var titleScale = new OscillateScaleComponent();
+		titleScale.amplitude = new createjs.Point( .03,.03);
+		titleScale.frequency = 10;
+
+	var gameTitle = new createjs.Text("DON'T DROP THE BABY!", "80 Comfortaa");
+		gameTitle.color = "#2e99c0";
+		gameTitle.outline = 10;
+		gameTitle.textAlign = "center";
+		gameTitle.textBaseline = "middle";
+		gameTitle.AddComponent( titleScale );
+		gameTitle.SetComponentsUpdate( true );
+
 	var img = applicationData.getResult("face");	
-	var babyFace = new createjs.Bitmap( img );
-//		babyFace.setTransform( 100,100,4,4 );
-		
-//		console.log( applicationData.getResult("babyImg") );
-//		babyFace.image.onload = function() { 
-//		console.log("FUCK ME");
-//		stage.update(); stage.addChild( babyFace ) };
-		
+	var babyFace = new createjs.Bitmap( img.src );
+		babyFace.regX = babyFace.regY = 256;
+
 	var hitRadius = config.babySize;
 	var hitArea = new createjs.Shape();
-		hitArea.graphics.beginFill("green").drawCircle(0,0,hitRadius);
+		hitArea.graphics.beginFill("green").drawCircle(0,0,hitRadius).
+			moveTo(0,0).beginFill("red").drawRect(-hitRadius,-hitRadius*.25,hitRadius*2,hitRadius*.5);
 		
-		textOutput = new createjs.Text("","Arial 20px", "#000000");
+		textOutput = new createjs.Text("","20 Arial", "#000000");
 		textOutput.x = textOutput.y = 10;
 			
-		baby = new createjs.Shape();
+		baby = new createjs.Container();
 //		baby.graphics.beginFill("red").rect(-30,-25,60,50);
-		baby.graphics.beginFill("green").drawCircle(0,0,hitRadius).
-			moveTo(0,0).beginFill("red").drawRect(-hitRadius,-hitRadius*.25,hitRadius*2,hitRadius*.5);
+		
 		//baby.hitArea = hitArea;
 		baby.AddComponent( spinBaby );
 		baby.AddComponent( velocityBaby );
+		baby.AddComponent( babyScale );
 		baby.SetComponentsUpdate( true );
 		baby.on("mousedown", babyHit, this);
 //		baby.on("onmousedown", babyHit, this );
 //		baby.mouseEnabled = true;
-		
-	container.addChild( baby );
-	container.addChild( babyFace );
+	
+	baby.addChild( hitArea, babyFace);
+	container.addChild( gameTitle, baby );
+	
 	
 	stage.addChild( textOutput );
 	stage.on("tick", update, this);
+
 /*
 	// Keyboard
 
