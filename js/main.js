@@ -9,11 +9,11 @@ function main()
 	document.onkeydown = keyPressed;
 	
 	document.ontouchstart = ( mouseDown ).bind( this );
-	document.ontouchend = ( mouseUp ).bind( this );
-	document.ontouchmove = ( mouseMove ).bind( this );
+//	document.ontouchend = ( mouseUp ).bind( this );
+//	document.ontouchmove = ( mouseMove ).bind( this );
 	document.onmousedown = ( mouseDown ).bind( this );
-	document.onmouseup = ( mouseUp ).bind( this );
-	document.onmousemove = ( mouseMove ).bind( this );
+//	document.onmouseup = ( mouseUp ).bind( this );
+//	document.onmousemove = ( mouseMove ).bind( this );
 			
 	var rotateBaby = new RotateComponent();
 	//var translateBaby = new TranslateComponent();
@@ -27,6 +27,9 @@ function main()
 		baby.AddComponent( rotateBaby );
 		baby.AddComponent( velocityBaby );
 		baby.SetComponentsUpdate( true );
+		baby.on("ontouchstart", babyHit, this);
+		baby.on("onmousedown", babyHit, this );
+		
 		
 	container.addChild( baby );
 	
@@ -91,6 +94,13 @@ function main()
 	*/
 }
 
+function babyHit( event )
+{
+	console.log("baby hit");
+	var component = baby.GetComponent( VelocityComponent );
+		component.velocity.y += -20;	
+}
+
 function mouseMove( event )
 {
 	var component = baby.GetComponent( VelocityComponent );
@@ -98,9 +108,9 @@ function mouseMove( event )
 }
 
 function mouseDown( event )
-{	
+{			
 	var mp = container.globalToLocal( stage.mouseX , stage.mouseY ) ;
-	var size = 30;
+	var size = 60;
 	var touch = new createjs.Shape();
 		touch.graphics.beginFill("Grey").drawCircle(0,0,size);
 		touch.AddComponent( new FadeComponent() );
