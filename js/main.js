@@ -10,7 +10,8 @@ var config = {
 	rotationEase: .01
 };
 var manifest = [
-		{src:"img/baby_small.png", id: "face"}
+		{src:"img/baby_small.png", id: "face"},
+		{src:"img/toy_1.png", id: "toy_1"}
 ];
 
 var applicationData;
@@ -55,8 +56,12 @@ function applicationReady( event )
 		babyScale.amplitude = new createjs.Point( .1,.1);
 		
 	var titleScale = new OscillateScaleComponent();
-		titleScale.amplitude = new createjs.Point( .03,.03);
-		titleScale.frequency = 10;
+		titleScale.amplitude = new createjs.Point( .01,.01);
+		titleScale.frequency = 5;
+
+	var backgroundScale = new OscillateScaleComponent();
+		backgroundScale.amplitude = new createjs.Point( .01,.01);
+		backgroundScale.frequency = 5;
 
 	var gameTitle = new createjs.Text("DON'T DROP THE BABY!", "80 Comfortaa");
 		gameTitle.color = "#2e99c0";
@@ -65,6 +70,14 @@ function applicationReady( event )
 		gameTitle.textBaseline = "middle";
 		gameTitle.AddComponent( titleScale );
 		gameTitle.SetComponentsUpdate( true );
+
+	var backgroundImg = applicationData.getResult("toy_1");
+	var background = new createjs.Shape();
+		background.graphics.beginBitmapFill(backgroundImg).drawRect(0, 0, stage.width + backgroundImg.width, stage.height + backgroundImg.height);
+		background.tileW = backgroundImg.width;
+		background.tileH = backgroundImg.height;
+		background.AddComponent( backgroundScale );
+		background.SetComponentsUpdate( true );
 
 	var img = applicationData.getResult("face");	
 	var babyFace = new createjs.Bitmap( img.src );
@@ -92,11 +105,12 @@ function applicationReady( event )
 	
 	baby.addChild( hitArea, babyFace);
 	container.addChild( gameTitle, baby );
-	
-	
-	stage.addChild( textOutput );
-	stage.on("tick", update, this);
 
+	
+
+	stage.addChild( background, textOutput );
+	stage.on("tick", update, this);
+	stage.setChildIndex( container, stage.getNumChildren()-1);	// put game on top
 /*
 	// Keyboard
 
