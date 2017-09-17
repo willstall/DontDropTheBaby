@@ -7,7 +7,12 @@ function main()
 	setup();
 	
 	document.onkeydown = keyPressed;
-		
+	
+	document.ontouchstart = ( mouseDown ).bind( this );
+	document.ontouchend = ( mouseUp ).bind( this );
+
+	document.onmousedown = ( mouseDown ).bind( this );
+	document.onmouseup = ( mouseUp ).bind( this );		
 	var rotateBaby = new RotateComponent();
 	//var translateBaby = new TranslateComponent();
 	var velocityBaby = new VelocityComponent();
@@ -84,6 +89,18 @@ function main()
 	*/
 }
 
+
+function mouseDown( event )
+{
+	var component = baby.GetComponent( VelocityComponent );
+		component.velocity.y += -2;
+}
+
+function mouseUp( event )
+{
+
+}
+
 function onDeviceMotion( event )
 {
 	var x = event.accelerationIncludingGravity.x;  
@@ -98,8 +115,8 @@ function keyPressed( event )
 	//Keycodes found at http://keycode.info
 	if( event.keyCode == 32 )
 	{			
-		var component = baby.GetComponent( VelocityComponent );
-			component.velocity.y += -20;
+//		var component = baby.GetComponent( VelocityComponent );
+//			component.velocity.y += -20;
 			
 		console.log("space bar pressed");
 	}
