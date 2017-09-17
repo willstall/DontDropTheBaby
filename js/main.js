@@ -276,13 +276,13 @@ function babyHit( event )
 
 function updateTitle()
 {
-	var colors = ["#efd881","#fb5167","#eccd62","#2f99c2"];
+	var colors = ["#fb5167","#eccd62","#2f99c2"];
 	var color = colors[Math.floor(Math.random()*colors.length)];
 
 	var scaleAmount;
 	
 	gameTitle.color = color;
-	
+
 	if(( canReset == true) && (hits <= 0))
 	{
 		gameTitle.text = "DON'T DROP THE BABY!";
