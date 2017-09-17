@@ -1,3 +1,25 @@
+// FADE COMPONENt
+  function FadeComponent()
+  {
+    this.ease = 0.9;
+    this.autoDestroy = false;
+  }
+  var p = createjs.extend( FadeComponent, Component );
+  p.OnUpdate = function( event )
+  {
+    if(this.parent.alpha < 0 )
+    {
+      this.parent.alpha = 0;
+      if(this.autoDestroy == false)
+        return;      
+        
+      this.SetComponentsUpdate( false );
+      this.parent.parent.removeChild( this.parent);
+     }else{   
+      this.parent.alpha *= this.ease;
+    }
+  }
+
 // LOOK AT COMPONENT
     function LookAtComponent()
     {

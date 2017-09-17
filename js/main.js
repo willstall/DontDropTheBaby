@@ -98,8 +98,17 @@ function mouseMove( event )
 }
 
 function mouseDown( event )
-{
-
+{	
+	var mp = container.globalToLocal( stage.mouseX , stage.mouseY ) ;
+	var size = 30;
+	var touch = new createjs.Shape();
+		touch.graphics.beginFill("Grey").drawCircle(0,0,size);
+		touch.AddComponent( new FadeComponent() );
+		touch.AddComponent( new OscillateScaleComponent() );
+		touch.SetComponentsUpdate( true );
+		touch.x = mp.x;
+		touch.y = mp.y;
+	container.addChild( touch );
 }
 
 function mouseUp( event )
