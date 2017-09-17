@@ -5,7 +5,8 @@ var config = {
 	babySize: 90,
 	hitForce: 50,
 	babyFriction: .99,
-	touchIndicatorSize: 30
+	touchIndicatorSize: 30,
+	gravity: .5
 };
 function main()
 {
@@ -21,7 +22,7 @@ function main()
 //	document.onmouseup = ( mouseUp ).bind( this );
 //	document.onmousemove = ( mouseMove ).bind( this );
 			
-	var rotateBaby = new RotateComponent();
+	var spinBaby = new SpinComponent();
 	//var translateBaby = new TranslateComponent();
 	var velocityBaby = new VelocityComponent();
 		velocityBaby.friction = config.babyFriction;
@@ -38,7 +39,7 @@ function main()
 		baby.graphics.beginFill("green").drawCircle(0,0,hitRadius).
 			moveTo(0,0).beginFill("red").drawRect(-hitRadius,-hitRadius*.25,hitRadius*2,hitRadius*.5);
 		//baby.hitArea = hitArea;
-		baby.AddComponent( rotateBaby );
+		baby.AddComponent( spinBaby );
 		baby.AddComponent( velocityBaby );
 		baby.SetComponentsUpdate( true );
 		baby.on("mousedown", babyHit, this);
@@ -112,8 +113,10 @@ function babyHit( event )
 {
 	var force = config.hitForce;
 	var mp = container.globalToLocal( stage.mouseX , stage.mouseY );
-	var subtract = new createjs.Point( mp.x,mp.y).subtract(baby.GetPosition());
+	var subtract = mp.subtract(baby.GetPosition());
 		subtract = subtract.normalized();
+		
+	var angle = mp.degreesTo( baby.GetPosition() );
 	//var dist = createjs.Point.distance(dist, baby.GetPosition());
 	//console.log( dist );
 
@@ -123,6 +126,9 @@ function babyHit( event )
 //		component.velocity.x += Math.cos( angle ) * force
 	component.velocity.x -= subtract.x * force; 
 	component.velocity.y -= subtract.y * force;
+	
+	component = baby.GetComponent( SpinComponent );
+	component.targetRotation += angle + 360;
 }
 
 function mouseMove( event )
@@ -190,7 +196,7 @@ function update( event )
 		baby.x = stage.width * -.5 - halfWidth;
 	}
 
-	component.velocity.y += .5;
+	component.velocity.y += config.gravity;
 	textOutput.Debug( component.velocity.y );
 	
 	//textOutput.Debug( baby.y );
