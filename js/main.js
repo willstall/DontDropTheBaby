@@ -10,9 +10,11 @@ function main()
 	
 	document.ontouchstart = ( mouseDown ).bind( this );
 	document.ontouchend = ( mouseUp ).bind( this );
-
+	document.ontouchmove = ( mouseMove ).bind( this );
 	document.onmousedown = ( mouseDown ).bind( this );
-	document.onmouseup = ( mouseUp ).bind( this );		
+	document.onmouseup = ( mouseUp ).bind( this );
+	document.onmousemove = ( mouseMove ).bind( this );
+			
 	var rotateBaby = new RotateComponent();
 	//var translateBaby = new TranslateComponent();
 	var velocityBaby = new VelocityComponent();
@@ -89,11 +91,15 @@ function main()
 	*/
 }
 
-
-function mouseDown( event )
+function mouseMove( event )
 {
 	var component = baby.GetComponent( VelocityComponent );
 		component.velocity.y += -2;
+}
+
+function mouseDown( event )
+{
+
 }
 
 function mouseUp( event )
@@ -130,7 +136,7 @@ function update( event )
 	}
 	
 	var component = baby.GetComponent( VelocityComponent );
-	
+		component.velocity.y += 1;
 	textOutput.Debug( component.velocity.y );
 	
 	//textOutput.Debug( baby.y );
