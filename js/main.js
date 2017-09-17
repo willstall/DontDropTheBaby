@@ -9,7 +9,7 @@ var config = {
 	touchIndicatorSize: 30,
 	gravity: .5,
 	rotationEase: .01,
-	resetTime: 1000
+	resetTime: 1500
 };
 var manifest = [
 		{src:"img/baby_small.png", id: "face"},
@@ -207,7 +207,7 @@ function updateTitle()
 {
 	var scaleAmount;
 	
-	if(hits <= 0)
+	if(( canReset == true) && (hits <= 0))
 	{
 		gameTitle.text = "DON'T DROP THE BABY!";
 		scaleAmount = 1.1;
@@ -273,7 +273,11 @@ function keyPressed( event )
 function gameOver()
 {
 	if(isGameOver == false)
-		setTimeout(function(){ canReset = true; }, config.resetTime );
+		setTimeout(function(){
+			canReset = true;
+			hits = 0;
+			updateTitle();
+		}, config.resetTime );
 
 	isGameOver = true;	
 }
@@ -287,10 +291,9 @@ function resetGame()
 
 	var component = baby.GetComponent( VelocityComponent );
 		component.velocity.y = config.startingVelocity.y;
-		
+
 	canReset = false;
 	isGameOver = false;
-	hits = 0;
 	
 	updateTitle();
 }
