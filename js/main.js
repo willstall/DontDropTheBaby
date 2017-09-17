@@ -274,11 +274,16 @@ function babyHit( event )
 	.to({scaleX: 1, scaleY: 1}, 150, createjs.Ease.bounceOut);	
 }
 
-function updateTitle()
+function getRandomColor()
 {
 	var colors = ["#fb5167","#eccd62","#2f99c2"];
 	var color = colors[Math.floor(Math.random()*colors.length)];
+	return color;	
+}
 
+function updateTitle()
+{
+	var color = getRandomColor();
 	var scaleAmount;
 	
 	gameTitle.color = color;
@@ -306,14 +311,15 @@ function mouseMove( event )
 function mouseDown( event )
 {	
 	resetGame();
-			
+
+	var color = getRandomColor();			
 	var mp = container.globalToLocal( stage.mouseX , stage.mouseY ) ;
 	var size = config.touchIndicatorSize;
 	var fade = new FadeComponent();
 		fade.autoDestroy = true;
-		fade.ease = .33;
+		fade.ease = .8;
 	var touch = new createjs.Shape();
-		touch.graphics.beginFill("#053648").drawCircle(0,0,size);
+		touch.graphics.beginFill(color).drawCircle(0,0,size);
 		touch.AddComponent( fade );
 		touch.AddComponent( new OscillateScaleComponent() );
 		touch.SetComponentsUpdate( true );
