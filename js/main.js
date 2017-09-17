@@ -18,7 +18,8 @@ var manifest = [
 		{src:"img/part_2.png", id: "part_2"},
 		{src:"img/part_3.png", id: "part_3"},
 		{src:"img/part_4.png", id: "part_4"},
-		{src:"img/part_5.png", id: "part_5"}
+		{src:"img/part_5.png", id: "part_5"},
+		{src:"img/part_6.png", id: "part_6"}
 ];
 
 var applicationData;
@@ -281,16 +282,28 @@ function keyPressed( event )
 function explodeBaby()
 {
 	var partsData = [
-		{img: "part_1", size: 128},
-		{img: "part_2", size: 128},
-		{img: "part_3", size: 128},
-		{img: "part_4", size: 128},
-		{img: "part_5", size: 128}
+		{img: "part_1", size: 128, scale: 1},
+		{img: "part_2", size: 128, scale: 1},
+		{img: "part_3", size: 256, scale: 1},
+		{img: "part_4", size: 128, scale: .5},
+		{img: "part_4", size: 128, scale: 1},
+		{img: "part_5", size: 256, scale: 1},
+		{img: "part_6", size: 128, scale: 1},
+		{img: "part_6", size: 128, scale: 1},
+		{img: "part_6", size: 128, scale: .6},
+		{img: "part_6", size: 128, scale: .6},
+		{img: "toy_1", size: 128, scale: 1},
+		{img: "toy_1", size: 128, scale: 1},
+		{img: "toy_1", size: 128, scale: 1},
+		{img: "toy_1", size: 128, scale: 1},
+		{img: "toy_1", size: 128, scale: 1},
+		{img: "toy_1", size: 128, scale: 1},
+		{img: "toy_1", size: 128, scale: 1}
 	]
 	for(var i = 0; i < partsData.length; i++)
 	{
 		var partData = partsData[i];
-		var part = new Part(partData.img, partData.size);
+		var part = new Part(partData.img, partData.size, partData.scale);
 			part.x = baby.x;
 			part.y = stage.height * .5 + partData.size;
 		container.addChild( part );		
