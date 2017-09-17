@@ -13,7 +13,12 @@ var config = {
 };
 var manifest = [
 		{src:"img/baby_small.png", id: "face"},
-		{src:"img/toy_1.png", id: "toy_1"}
+		{src:"img/toy_1.png", id: "toy_1"},
+		{src:"img/part_1.png", id: "part_1"},
+		{src:"img/part_2.png", id: "part_2"},
+		{src:"img/part_3.png", id: "part_3"},
+		{src:"img/part_4.png", id: "part_4"},
+		{src:"img/part_5.png", id: "part_5"}
 ];
 
 var applicationData;
