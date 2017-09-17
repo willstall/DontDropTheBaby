@@ -9,7 +9,7 @@
         this.size = Math.random() * (this.size  - this.size * .5 ) + this.size * .5 ;     
 
         this.gfx = new createjs.Shape();
-        this.gfx.graphics.beginFill("white").drawCircle(0,0,this.size);
+        this.gfx.graphics.beginFill("#2e99c0").drawCircle(0,0,this.size);
         
         var xVelocity = 30;
             xVelocity = Math.random() * (xVelocity - -xVelocity) + -xVelocity;

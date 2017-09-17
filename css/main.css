@@ -9,7 +9,9 @@ body
     overflow: hidden;
     font-family: 'Gloria Hallelujah', cursive;  
     font-size: 14px;
-    background-color: #ffe8d9;
+    background-color: #f8fbfb;
+    /* background-color: #ffe8d9; */
+    /* f8fbfb */
 }
 
 #footer

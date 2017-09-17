@@ -13,7 +13,6 @@ var config = {
 	resetTime: 1500
 };
 var manifest = [
-		{src:"img/baby_small.png", id: "face"},
 		{src:"img/toy_1.png", id: "toy_1"},
 		{src:"img/toy_2.png", id: "toy_2"},
 		{src:"img/toy_3.png", id: "toy_3"},
@@ -22,7 +21,8 @@ var manifest = [
 		{src:"img/part_3.png", id: "part_3"},
 		{src:"img/part_4.png", id: "part_4"},
 		{src:"img/part_5.png", id: "part_5"},
-		{src:"img/part_6.png", id: "part_6"}
+		{src:"img/part_6.png", id: "part_6"},
+		{src:"img/part_7.png", id: "part_7"}
 ];
 
 var applicationData;
@@ -73,13 +73,15 @@ function applicationReady( event )
 		titleScale.amplitude = new createjs.Point( .01,.01);
 		titleScale.frequency = 20;
 
+	// var testBaby = new Baby();
+	
 	var backgroundScale = new OscillateScaleComponent();
 		backgroundScale.amplitude = new createjs.Point( .01,.01);
 		backgroundScale.frequency = 5;
 
 		gameTitle = new createjs.Text("", "80 Comfortaa");
 		gameTitle.color = "#2e99c0";
-		//gameTitle.outline = 10;
+		gameTitle.outline = 10;
 		gameTitle.textAlign = "center";
 		gameTitle.textBaseline = "middle";
 		if (ratio )
@@ -104,9 +106,10 @@ function applicationReady( event )
 		background.AddComponent( backgroundScale );
 		background.SetComponentsUpdate( true );
 
-	var img = applicationData.getResult("face");	
-	var babyFace = new createjs.Bitmap( img.src );
-		babyFace.regX = babyFace.regY = 256;
+
+	// var img = applicationData.getResult("face");	
+	// var babyFace = new createjs.Bitmap( img.src );
+		// babyFace.regX = babyFace.regY = 256;
 
 	var hitRadius = config.babySize;
 	var hitArea = new createjs.Shape();
@@ -116,7 +119,7 @@ function applicationReady( event )
 		textOutput = new createjs.Text("","20 Arial", "#000000");
 		textOutput.x = textOutput.y = 10;
 			
-		baby = new createjs.Container();
+		baby = new Baby();
 //		baby.graphics.beginFill("red").rect(-30,-25,60,50);
 		
 		//baby.hitArea = hitArea;
@@ -129,15 +132,15 @@ function applicationReady( event )
 //		baby.on("onmousedown", babyHit, this );
 //		baby.mouseEnabled = true;
 	
-	baby.addChild( hitArea, babyFace);
-	container.addChild( titleContainer, baby, explosions );
+	container.addChild( titleContainer, explosions, baby );
+	// container.addChild( testBaby );
 
 	stage.addChild( background );
 	stage.on("tick", update, this);
 	stage.setChildIndex( container, stage.numChildren-1);	// put game on top
 
 	//testing
-	explodeBaby();
+	// explodeBaby();
 /*
 	// Keyboard
 
@@ -317,6 +320,8 @@ function explodeBaby()
 		{img: "part_6", size: 128, scale: 1},
 		{img: "part_6", size: 128, scale: .6},
 		{img: "part_6", size: 128, scale: .6},
+		{img: "part_7", size: 256, scale: 1},
+		{img: "part_7", size: 256, scale: .6},
 		{img: "toy_1", size: 128, scale: 1},
 		{img: "toy_1", size: 128, scale: 1},
 		{img: "toy_1", size: 128, scale: 1},
