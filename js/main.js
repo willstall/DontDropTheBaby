@@ -82,10 +82,8 @@ function applicationReady( event )
 		//gameTitle.outline = 10;
 		gameTitle.textAlign = "center";
 		gameTitle.textBaseline = "middle";
-		if (ratio === undefined)
+		if (ratio )
 		{
-
-		}else{
 			gameTitle.scaleX = gameTitle.scaleY = ratio;
 		}
         
