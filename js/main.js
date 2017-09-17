@@ -9,7 +9,7 @@ var config = {
 	hitForce: 50,
 	babyFriction: .99,
 	touchIndicatorSize: 30,
-	gravity: 0.5,
+	gravity: 0,
 	rotationEase: .01,
 	bodyRotationEase: .01,
 	resetTime: 1500
@@ -136,7 +136,7 @@ function applicationReady( event )
 // 	babyBody.AddComponent( offset );		
 		babyBody.SetComponentsUpdate( true );
 	
-	container.addChild( titleContainer, explosions, baby, babyBody );
+	container.addChild( titleContainer, explosions, babyBody, baby );
 	// container.addChild( testBaby );
 
 	stage.addChild( background );
