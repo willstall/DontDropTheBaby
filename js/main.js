@@ -70,9 +70,9 @@ function applicationReady( event )
 	var babyScale = new OscillateScaleComponent();
 		babyScale.amplitude = new createjs.Point( .1,.1);
 		
-	var titleScale = new OscillateScaleComponent();
-		titleScale.amplitude = new createjs.Point( .01,.01);
-		titleScale.frequency = 20;
+//	var titleScale = new OscillateScaleComponent();
+		//titleScale.amplitude = new createjs.Point( .01,.01);
+		//titleScale.frequency = 20;
 
 	// var testBaby = new Baby();
 	
@@ -80,15 +80,13 @@ function applicationReady( event )
 		backgroundScale.amplitude = new createjs.Point( .01,.01);
 		backgroundScale.frequency = 5;
 
-		gameTitle = new createjs.Text("", "80 Dosis");
+		gameTitle = new createjs.Text("", "80px Dosis");
 		gameTitle.color = "#2e99c0";
 		//gameTitle.outline = 10;
 		gameTitle.textAlign = "center";
 		gameTitle.textBaseline = "middle";
-		if (ratio )
-		{
-			gameTitle.scaleX = gameTitle.scaleY = ratio;
-		}
+		gameTitle.scaleX = gameTitle.scaleY = 2;
+
         
 		updateTitle();
 
@@ -96,7 +94,7 @@ function applicationReady( event )
 
 	var titleContainer = new createjs.Container();
 		titleContainer.addChild( gameTitle );
-		titleContainer.AddComponent( titleScale );
+		//titleContainer.AddComponent( titleScale );
 		titleContainer.SetComponentsUpdate( true );
 
 	var backgroundImg = applicationData.getResult("toy_1");
@@ -117,7 +115,7 @@ function applicationReady( event )
 		hitArea.graphics.beginFill("green").drawCircle(0,0,hitRadius).
 			moveTo(0,0).beginFill("red").drawRect(-hitRadius,-hitRadius*.25,hitRadius*2,hitRadius*.5);
 		
-		textOutput = new createjs.Text("","20 Arial", "#000000");
+		textOutput = new createjs.Text("","20pt Arial", "#000000");
 		textOutput.x = textOutput.y = 10;
 			
 		baby = new Baby();
