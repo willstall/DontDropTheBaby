@@ -14,6 +14,7 @@ var config = {
 };
 var manifest = [
 		{src:"audio/yuck.wav", id: "screaming"},
+		{src:"img/particle.png", id: "particle"},
 		{src:"img/toy_1.png", id: "toy_1"},
 		{src:"img/toy_2.png", id: "toy_2"},
 		{src:"img/toy_3.png", id: "toy_3"},
@@ -87,7 +88,6 @@ function applicationReady( event )
 		gameTitle.textBaseline = "middle";
 		gameTitle.scaleX = gameTitle.scaleY = 2;
 
-        
 		updateTitle();
 
 		explosions = new createjs.Container();
@@ -104,7 +104,6 @@ function applicationReady( event )
 		background.tileH = backgroundImg.height;
 		background.AddComponent( backgroundScale );
 		background.SetComponentsUpdate( true );
-
 
 	// var img = applicationData.getResult("face");	
 	// var babyFace = new createjs.Bitmap( img.src );
@@ -332,7 +331,12 @@ function explodeBaby()
 		{img: "toy_3", size: 128, scale: 1},
 		{img: "toy_3", size: 128, scale: 1},
 		{img: "toy_3", size: 128, scale: 1},
-		{img: "toy_3", size: 128, scale: 1}				
+		{img: "toy_3", size: 128, scale: 1},
+		{img: "particle", size: 128, scale: 1},
+		{img: "particle", size: 128, scale: .9},
+		{img: "particle", size: 128, scale: .7},
+		{img: "particle", size: 128, scale: .5},
+		{img: "particle", size: 128, scale: .3}				
 	];
 	for(var i = 0; i < partsData.length; i++)
 	{

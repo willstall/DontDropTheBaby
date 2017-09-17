@@ -64,8 +64,6 @@ function retinalize()
 
     if (ratio === undefined)
         return;
-
-    console.log( JSON.stringify(ratio) );
     
     var height = this.canvas.getAttribute('height');
     var width = this.canvas.getAttribute('width');
