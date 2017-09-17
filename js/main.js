@@ -15,6 +15,8 @@ var config = {
 var manifest = [
 		{src:"img/baby_small.png", id: "face"},
 		{src:"img/toy_1.png", id: "toy_1"},
+		{src:"img/toy_2.png", id: "toy_2"},
+		{src:"img/toy_3.png", id: "toy_3"},
 		{src:"img/part_1.png", id: "part_1"},
 		{src:"img/part_2.png", id: "part_2"},
 		{src:"img/part_3.png", id: "part_3"},
@@ -77,7 +79,7 @@ function applicationReady( event )
 
 		gameTitle = new createjs.Text("", "80 Comfortaa");
 		gameTitle.color = "#2e99c0";
-		gameTitle.outline = 10;
+		//gameTitle.outline = 10;
 		gameTitle.textAlign = "center";
 		gameTitle.textBaseline = "middle";
 		updateTitle();
@@ -314,9 +316,14 @@ function explodeBaby()
 		{img: "toy_1", size: 128, scale: 1},
 		{img: "toy_1", size: 128, scale: 1},
 		{img: "toy_1", size: 128, scale: 1},
-		{img: "toy_1", size: 128, scale: 1},
-		{img: "toy_1", size: 128, scale: 1},
-		{img: "toy_1", size: 128, scale: 1}
+		{img: "toy_2", size: 128, scale: 1},
+		{img: "toy_2", size: 128, scale: 1},
+		{img: "toy_2", size: 128, scale: 1},
+		{img: "toy_2", size: 128, scale: 1},
+		{img: "toy_3", size: 128, scale: 1},
+		{img: "toy_3", size: 128, scale: 1},
+		{img: "toy_3", size: 128, scale: 1},
+		{img: "toy_3", size: 128, scale: 1}				
 	];
 	for(var i = 0; i < partsData.length; i++)
 	{

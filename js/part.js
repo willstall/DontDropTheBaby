@@ -18,7 +18,7 @@
         var xVelocity = 30;
             xVelocity = Math.random() * (xVelocity - -xVelocity) + -xVelocity;
         var yVelocity = -50;
-            yVelocity = yVelocity + Math.random() * (yVelocity - -yVelocity) + -yVelocity;
+            yVelocity = yVelocity + Math.random() * yVelocity;
 
 	    var velocity = new VelocityComponent();
             velocity.friction = .99;
