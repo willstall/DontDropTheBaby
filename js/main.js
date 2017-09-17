@@ -178,7 +178,7 @@ function update( event )
 	if(baby.y >= stage.height * .5 + halfWidth)
 	{
 		baby.y = stage.height * -.5 - halfWidth;
-		component.velocity = config.startingVelocity;
+		component.velocity.y = config.startingVelocity.y;
 	}
 	
 	if(baby.x < stage.width * -.5 - halfWidth)
