@@ -6,7 +6,8 @@ var config = {
 	hitForce: 50,
 	babyFriction: .99,
 	touchIndicatorSize: 30,
-	gravity: .5
+	gravity: .5,
+	rotationEase: .01
 };
 function main()
 {
@@ -23,6 +24,7 @@ function main()
 //	document.onmousemove = ( mouseMove ).bind( this );
 			
 	var spinBaby = new SpinComponent();
+		spinBaby.ease = config.rotationEase;
 	//var translateBaby = new TranslateComponent();
 	var velocityBaby = new VelocityComponent();
 		velocityBaby.friction = config.babyFriction;
