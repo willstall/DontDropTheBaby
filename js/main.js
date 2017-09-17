@@ -1,6 +1,7 @@
 var baby;
 var gameTitle;
 var textOutput;
+var explosions;
 var config = {
 	startingVelocity: new createjs.Point(0,5),
 	babySize: 90,
@@ -26,6 +27,7 @@ var applicationData;
 var isGameOver = true;
 var canReset = true;
 var hits = 0;
+var gameOverTimer = 0;
 
 function main()
 {
@@ -79,7 +81,9 @@ function applicationReady( event )
 		gameTitle.textAlign = "center";
 		gameTitle.textBaseline = "middle";
 		updateTitle();
-	
+
+		explosions = new createjs.Container();
+
 	var titleContainer = new createjs.Container();
 		titleContainer.addChild( gameTitle );
 		titleContainer.AddComponent( titleScale );
@@ -119,7 +123,7 @@ function applicationReady( event )
 //		baby.mouseEnabled = true;
 	
 	baby.addChild( hitArea, babyFace);
-	container.addChild( titleContainer, baby );
+	container.addChild( titleContainer, baby, explosions );
 
 	stage.addChild( background );
 	stage.on("tick", update, this);
@@ -299,28 +303,33 @@ function explodeBaby()
 		{img: "toy_1", size: 128, scale: 1},
 		{img: "toy_1", size: 128, scale: 1},
 		{img: "toy_1", size: 128, scale: 1}
-	]
+	];
 	for(var i = 0; i < partsData.length; i++)
 	{
 		var partData = partsData[i];
 		var part = new Part(partData.img, partData.size, partData.scale);
 			part.x = baby.x;
 			part.y = stage.height * .5 + partData.size;
-		container.addChild( part );		
+	
+		explosions.addChild( part );		
 	}
+}
+
+function gameOverUpdate( event )
+{
+	isGameOver = true;
+	gameOverTimer += 1000 / 60;
+
+	if(gameOverTimer >= config.resetTime)
+		gameOver();
 }
 
 function gameOver()
 {
-	if(isGameOver == false)
-		explodeBaby();
-		setTimeout(function(){
-			canReset = true;
-			hits = 0;
-			updateTitle();
-		}, config.resetTime );
-
-	isGameOver = true;	
+	canReset = true;
+	hits = 0;
+	gameOverTimer = 0;
+	updateTitle();
 }
 
 function resetGame()
@@ -345,8 +354,14 @@ function update( event )
 	var halfWidth = config.babySize * .5;
 	
 	if(baby.y >= stage.height * .5 + config.babySize * 2 )
-	{		
-		gameOver();
+	{	
+		if(isGameOver == false)
+		{
+			explodeBaby();
+			isGameOver = true;				
+		}else{
+			gameOverUpdate( event );
+		}
 	}
 	
 	if(baby.x <= stage.width * -.5 - halfWidth)
