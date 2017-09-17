@@ -6,6 +6,8 @@ function main()
 	// Setup
 	setup();
 	
+	document.onkeydown = keyPressed;
+		
 	var rotateBaby = new RotateComponent();
 	//var translateBaby = new TranslateComponent();
 	var velocityBaby = new VelocityComponent();
@@ -25,7 +27,7 @@ function main()
 	stage.on("tick", update, this);
 /*
 	// Keyboard
-	document.onkeydown = keyPressed;
+
 
 	// Components
 	var testComponent = new OscillateScaleComponent();
@@ -95,8 +97,11 @@ function keyPressed( event )
 {
 	//Keycodes found at http://keycode.info
 	if( event.keyCode == 32 )
-	{
-		console.log("testing");
+	{			
+		var component = baby.GetComponent( VelocityComponent );
+			component.velocity.y += -20;
+			
+		console.log("space bar pressed");
 	}
 }
 
@@ -107,5 +112,9 @@ function update( event )
 		baby.y = 0;
 	}
 	
-	textOutput.Debug( baby.y );
+	var component = baby.GetComponent( VelocityComponent );
+	
+	textOutput.Debug( component.velocity.y );
+	
+	//textOutput.Debug( baby.y );
 }

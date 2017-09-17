@@ -112,7 +112,7 @@
   var p = createjs.extend( VelocityComponent, Component );
   p.OnUpdate = function( event )
   {
-    this.velocity.scale( this.friction );
+    this.velocity = this.velocity.scale( this.friction );
     this.parent.x += this.velocity.x;
     this.parent.y += this.velocity.y;
   }
