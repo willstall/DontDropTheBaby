@@ -91,6 +91,31 @@
         this.counter += this.increment;     
     }
 
+// TRANSLATE COMPONENT
+  function TranslateComponent()
+  {
+    this.velocity = new createjs.Point(0,2);
+  }
+  var p = createjs.extend( TranslateComponent, Component );
+  p.OnUpdate = function( event )
+  {
+    this.parent.x += this.velocity.x;
+    this.parent.y += this.velocity.y;
+  }
+  
+// VELOCITY COMPONENT
+  function VelocityComponent()
+  {
+    this.velocity = new createjs.Point(0,20);
+    this.friction = 0.9;
+  }
+  var p = createjs.extend( VelocityComponent, Component );
+  p.OnUpdate = function( event )
+  {
+    this.velocity.scale( this.friction );
+    this.parent.x += this.velocity.x;
+    this.parent.y += this.velocity.y;
+  }
 // BASE COMPONENT ARCHITECTURE
     function Component()
     {

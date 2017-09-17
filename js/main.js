@@ -1,10 +1,29 @@
+var baby;
 var textOutput;
 
 function main()
 {
 	// Setup
 	setup();
+	
+	var rotateBaby = new RotateComponent();
+	//var translateBaby = new TranslateComponent();
+	var velocityBaby = new VelocityComponent();
 
+		textOutput = new createjs.Text("","Arial 20px", "#000000");
+		textOutput.x = textOutput.y = 10;
+			
+		baby = new createjs.Shape();
+		baby.graphics.beginFill("red").rect(-30,-25,60,50);
+		baby.AddComponent( rotateBaby );
+		baby.AddComponent( velocityBaby );
+		baby.SetComponentsUpdate( true );
+		
+	container.addChild( baby );
+	
+	stage.addChild( textOutput );
+	stage.on("tick", update, this);
+/*
 	// Keyboard
 	document.onkeydown = keyPressed;
 
@@ -56,8 +75,11 @@ function main()
 	container.addChild(test1,test2,test3);
 	container.AddComponent( rotateComponent );
 	container.SetComponentsUpdate( true );
+	
+	// Don't drop the baby
 
 	stage.addChild( textOutput );
+	*/
 }
 
 function onDeviceMotion( event )
@@ -80,5 +102,10 @@ function keyPressed( event )
 
 function update( event )
 {
-	console.log("update");
+	if(baby.y >= stage.height * .5)
+	{
+		baby.y = 0;
+	}
+	
+	textOutput.Debug( baby.y );
 }
