@@ -9,11 +9,32 @@ var config = {
 	gravity: .5,
 	rotationEase: .01
 };
+var manifest = [
+		{id: "face", src:"img/baby.png"}
+];
+
+var applicationData;
+
 function main()
 {
 	// Setup
 	setup();
 	
+	// Load Data
+	applicationData = new createjs.LoadQueue( false );
+	applicationData.on("complete", applicationReady, this);
+	applicationData.on("error", applicationError, this);
+	applicationData.loadManifest( manifest );
+}
+
+function applicationError( event )
+{
+	console.log( event.data );
+}
+
+function applicationReady( event )
+{
+
 	document.onkeydown = keyPressed;
 	
 	document.ontouchstart = ( mouseDown ).bind( this );
@@ -28,7 +49,14 @@ function main()
 	//var translateBaby = new TranslateComponent();
 	var velocityBaby = new VelocityComponent();
 		velocityBaby.friction = config.babyFriction;
-	
+		
+	var babyFace = new createjs.Bitmap( applicationData.getResult("face") );
+		
+//		console.log( applicationData.getResult("babyImg") );
+//		babyFace.image.onload = function() { 
+//		console.log("FUCK ME");
+//		stage.update(); stage.addChild( babyFace ) };
+		
 	var hitRadius = config.babySize;
 	var hitArea = new createjs.Shape();
 		hitArea.graphics.beginFill("green").drawCircle(0,0,hitRadius);
@@ -49,6 +77,9 @@ function main()
 //		baby.mouseEnabled = true;
 		
 	container.addChild( baby );
+	container.addChild( babyFace );
+
+	console.log( babyFace );
 	
 	stage.addChild( textOutput );
 	stage.on("tick", update, this);
@@ -109,8 +140,8 @@ function main()
 
 	stage.addChild( textOutput );
 	*/
-}
 
+}
 function babyHit( event )
 {
 	var force = config.hitForce;
@@ -190,10 +221,10 @@ function update( event )
 		component.velocity.y = config.startingVelocity.y;
 	}
 	
-	if(baby.x < stage.width * -.5 - halfWidth)
+	if(baby.x <= stage.width * -.5 - halfWidth)
 	{
 		baby.x = stage.width * .5 + halfWidth;
-	}else if(baby.x > stage.width * .5 + halfWidth)
+	}else if(baby.x >= stage.width * .5 + halfWidth)
 	{
 		baby.x = stage.width * -.5 - halfWidth;
 	}
