@@ -20,10 +20,11 @@ var config = {
 	numberScalePop: 8
 };
 var manifest = [
-		{src:"audio/background.mp3", id: "background"},
-		{src:"audio/woosh.mp3", id: "woosh"},
-		{src:"audio/explosion.mp3", id: "explosion"},
-		{src:"audio/explosion_hit.mp3", id: "explosionHit"},
+		// {src:"audio/background.mp3", id: "background"},
+		// {src:"audio/woosh.mp3", id: "woosh", data: 1},
+		// {src:"audio/explosion.mp3", id: "explosion"},
+		// {src:"audio/explosion_hit.mp3", id: "explosionHit"},
+		// {src:"audio/firework.mp3", id: "firework"},
 		{src:"img/particle.png", id: "particle"},
 		{src:"img/toy_1.png", id: "toy_1"},
 		{src:"img/toy_2.png", id: "toy_2"},
@@ -37,12 +38,13 @@ var manifest = [
 		{src:"img/part_7.png", id: "part_7"}
 ];
 
+
 var applicationData;
 var isGameOver = true;
 var canReset = true;
 var hits = 0;
 var gameOverTimer = 0;
-var explosionSound;
+var clickSound;
 
 function main()
 {
@@ -51,7 +53,7 @@ function main()
 	
 	// Load Data
 	applicationData = new createjs.LoadQueue( false );
-	applicationData.installPlugin(createjs.Sound);
+	// applicationData.installPlugin(createjs.Sound);
 	applicationData.on("complete", applicationReady, this);
 	applicationData.on("error", applicationError, this);
 	applicationData.loadManifest( manifest );
@@ -246,7 +248,7 @@ function applicationReady( event )
 function babyHit( event )
 {
 
-
+	
 	var force = config.hitForce;
 	var mp = container.globalToLocal( stage.mouseX , stage.mouseY );
 	var subtract = mp.subtract(baby.GetPosition());
@@ -274,12 +276,21 @@ function babyHit( event )
 	
 	hits++;
 
+	var flashComp = new FadeComponent();
+		flashComp.autoDestroy = true;
+
+	var flash = new createjs.Shape();
+		flash.graphics.beginFill("white").drawRect( 0,0,stage.width,stage.height);
+		flash.AddComponent( flashComp );
+		flash.SetComponentsUpdate( true );
+		flash.mouseEnabled = false;
+
+	stage.addChild( flash );
+
 	fireParticles( mp.x, mp.y, 30 );
 
-	if(explosionSound == null)
-	explosionSound = createjs.Sound.play("explosion", {loop:0, volume: 1});
-else
-	explosionSound.play();
+	//var explosionSound = createjs.Sound.play("firework", {loop:0, volume: 1 ,interrupt: createjs.Sound.INTERRUPT_NONE});
+
 
 	// HIT SOUND
 		
@@ -314,7 +325,7 @@ function updateTitle()
 		scaleAmount = config.numberScalePop;
 	}
 
-	var woosh = createjs.Sound.play("woosh", {loop:0, volume: .15});	
+	// var woosh = createjs.Sound.play("woosh", {loop:0, volume: .15});	
 	var tween = createjs.Tween.get(gameTitle, {loop: false})
 	.to({scaleX: scaleAmount, scaleY: scaleAmount}, 200, createjs.Ease.bounceIn)
 	.to({scaleX: 1, scaleY: 1}, 150, createjs.Ease.bounceOut);
@@ -344,7 +355,7 @@ function mouseDown( event )
 		touch.y = mp.y;
 	container.addChild( touch );
 
-	var explosion = createjs.Sound.play("explosionHit", {loop:0, volume: .2});
+	// clickSound = createjs.Sound.play("explosionHit", {loop:0, volume: .2,interrupt: createjs.Sound.INTERRUPT_ANY});
 }
 
 function mouseUp( event )
