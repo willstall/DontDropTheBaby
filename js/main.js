@@ -274,10 +274,10 @@ function babyHit( event )
 	
 	hits++;
 
-	fireParticles( mp.x, mp.y, 20 );
+	fireParticles( mp.x, mp.y, 30 );
 
 	if(explosionSound == null)
-	explosionSound = createjs.Sound.play("explosion", {loop:0, volume: 1,delay:1000});
+	explosionSound = createjs.Sound.play("explosion", {loop:0, volume: 1});
 else
 	explosionSound.play();
 
