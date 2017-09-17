@@ -173,19 +173,20 @@ function keyPressed( event )
 function update( event )
 {
 	var component = baby.GetComponent( VelocityComponent );
+	var halfWidth = config.babySize * .5;
 	
-	if(baby.y >= stage.height * .5)
+	if(baby.y >= stage.height * .5 + halfWidth)
 	{
-		baby.y = stage.height * -.5;
+		baby.y = stage.height * -.5 - halfWidth;
 		component.velocity = config.startingVelocity;
 	}
 	
-	if(baby.x < stage.width * -.5)
+	if(baby.x < stage.width * -.5 - halfWidth)
 	{
-		baby.x = stage.width * .5;
-	}else if(baby.x > stage.width* .5)
+		baby.x = stage.width * .5 + halfWidth;
+	}else if(baby.x > stage.width * .5 + halfWidth)
 	{
-		baby.x = stage.width * -.5;
+		baby.x = stage.width * -.5 - halfWidth;
 	}
 
 	component.velocity.y += .5;
