@@ -12,8 +12,8 @@
         this.bitmap.regX = this.bitmap.regY = size* .5;        
 
         var spin = new SpinComponent();
-		    spin.ease = .99;
-            spin.targetRotation = Math.random() * 3000;
+		    spin.ease = .01;
+            spin.targetRotation = 900 + Math.random() * 3000;
 
         var xVelocity = 30;
             xVelocity = Math.random() * (xVelocity - -xVelocity) + -xVelocity;
