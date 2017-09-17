@@ -1,18 +1,23 @@
 var baby;
 var babyBody;
+var hair;
 var gameTitle;
 var textOutput;
 var explosions;
+// var trail1;
 var config = {
 	startingVelocity: new createjs.Point(0,5),
 	babySize: 90,
 	hitForce: 50,
 	babyFriction: .99,
 	touchIndicatorSize: 30,
-	gravity: 0,
+	gravity: 0.5,
 	rotationEase: .01,
 	bodyRotationEase: .01,
-	resetTime: 1500
+	hairRotationEase: .03,
+	resetTime: 1500,
+	hitScale: 3,
+	numberScalePop: 8
 };
 var manifest = [
 		// {src:"audio/yuck.wav", id: "screaming"},
@@ -119,7 +124,7 @@ function applicationReady( event )
 		baby = new Baby();
 		baby.AddComponent( spinBaby );
 		baby.AddComponent( velocityBaby );
-		baby.AddComponent( babyScale );
+		// baby.AddComponent( babyScale );
 		baby.SetComponentsUpdate( true );
 		baby.on("mousedown", babyHit, this);
 		baby.y = 1000;
@@ -127,16 +132,45 @@ function applicationReady( event )
 	var offset = new SpringComponent();
 		offset.target = baby;
 
-	var bodySping = new SpinComponent();		
-		bodySping.ease = config.bodyRotationEase;
-		bodySping.targetRotation = Math.random() * 360;
+	var bodySpin = new SpinComponent();		
+		bodySpin.ease = config.bodyRotationEase;
+		bodySpin.targetRotation = Math.random() * 360;
 
 		babyBody = new BabyBody();
-		babyBody.AddComponent( bodySping );
+		babyBody.AddComponent( bodySpin );
 // 	babyBody.AddComponent( offset );		
 		babyBody.SetComponentsUpdate( true );
-	
-	container.addChild( titleContainer, explosions, babyBody, baby );
+
+		var hairSpin = new SpinComponent();		
+			hairSpin.ease = config.hairRotationEase;
+			hairSpin.targetRotation = Math.random() * 900;
+
+		// hair = new Hair();
+		// hair.AddComponent( hairSpin );
+		// hair.SetComponentsUpdate( true );
+
+
+
+	// trail1 = new Trail();
+	// trail1.targetX = trail1.targetY = 0;
+	// trail1.accel = .5;
+	// trail1.width = 8;
+	// trail1.setColor
+	// ({
+	// 	r : 5,
+	// 	g : 55,
+	// 	b: 72,
+	// 	a: 1
+	// });
+	// trail1.setColors([
+	// {
+	// 	r : 5,
+	// 	g : 55,
+	// 	b: 72,
+	// 	a: 1
+	// }]);
+
+	container.addChild( titleContainer, explosions, babyBody, baby ); //,hair
 	// container.addChild( testBaby );
 
 	stage.addChild( background );
@@ -228,14 +262,26 @@ function babyHit( event )
 	component = babyBody.GetComponent( SpinComponent );
 	component.targetRotation += angle + 3600;
 
+	// component = hair.GetComponent( SpinComponent );
+	// component.targetRotation += angle + 900;
+	
 	hits++;
 	updateTitle();
-	fireParticles( mp.x, mp.y );
+	fireParticles( mp.x, mp.y, 30 );
+
+	var tween = createjs.Tween.get(baby, {loop: false})
+	.to({scaleX: config.hitScale, scaleY: config.hitScale}, 150, createjs.Ease.bounceIn)
+	.to({scaleX: 1, scaleY: 1}, 150, createjs.Ease.bounceOut);	
 }
 
 function updateTitle()
 {
+	var colors = ["#efd881","#fb5167","#eccd62","#2f99c2"];
+	var color = colors[Math.floor(Math.random()*colors.length)];
+
 	var scaleAmount;
+	
+	gameTitle.color = color;
 	
 	if(( canReset == true) && (hits <= 0))
 	{
@@ -243,11 +289,12 @@ function updateTitle()
 		scaleAmount = 1.1;
 	}else{
 		gameTitle.text = hits.toString();
-		scaleAmount = 4;
+		
+		scaleAmount = config.numberScalePop;
 	}
 
 	var tween = createjs.Tween.get(gameTitle, {loop: false})
-	.to({scaleX: scaleAmount, scaleY: scaleAmount}, 150, createjs.Ease.bounceIn)
+	.to({scaleX: scaleAmount, scaleY: scaleAmount}, 200, createjs.Ease.bounceIn)
 	.to({scaleX: 1, scaleY: 1}, 150, createjs.Ease.bounceOut);
 }
 function mouseMove( event )
@@ -301,9 +348,8 @@ function keyPressed( event )
 	}
 }
 
-function fireParticles( x, y )
+function fireParticles( x, y , amount)
 {
-	var amount = 30;
 	for(var i = 0; i < amount; i++)
 	{
 		var particle = new Particle();
@@ -340,12 +386,7 @@ function explodeBaby()
 		{img: "toy_3", size: 128, scale: 1},
 		{img: "toy_3", size: 128, scale: 1},
 		{img: "toy_3", size: 128, scale: 1},
-		{img: "toy_3", size: 128, scale: 1},
-		{img: "particle", size: 128, scale: 1},
-		{img: "particle", size: 128, scale: .9},
-		{img: "particle", size: 128, scale: .7},
-		{img: "particle", size: 128, scale: .5},
-		{img: "particle", size: 128, scale: .3}				
+		{img: "toy_3", size: 128, scale: 1}			
 	];
 	for(var i = 0; i < partsData.length; i++)
 	{
@@ -356,6 +397,8 @@ function explodeBaby()
 	
 		explosions.addChild( part );		
 	}
+
+	fireParticles( baby.x, stage.height * .5, 10);
 }
 
 function gameOverUpdate( event )
@@ -422,6 +465,6 @@ function update( event )
 	
 	//textOutput.Debug( baby.y );
 
-	babyBody.x = baby.x;
-	babyBody.y = baby.y;
+	babyBody.x = baby.x;//hair.x = 
+	babyBody.y =  baby.y;//hair.y =
 }

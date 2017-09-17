@@ -41,6 +41,14 @@
             core.y = 90;
             core.addChild( arm1, arm2,leg1, leg2, body, pants  );            
 
+
+        var coreScale = new OscillateScaleComponent();
+            coreScale.amplitude = new createjs.Point( .1, .1);
+            coreScale.frequency = 18;
+
+            core.AddComponent( coreScale );
+            core.SetComponentsUpdate( true );  
+
         this.addChild( core );
        //this.addChild( arm1, arm2,leg1, leg2, body, pants );            
 
