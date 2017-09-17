@@ -1,4 +1,4 @@
-// FADE COMPONENt
+// FADE COMPONENT
   function FadeComponent()
   {
     this.ease = 0.9;
@@ -81,7 +81,7 @@
     p.OnAdd = function()
     {
         if(this.randomOffset)
-        this.offset = Math.random() * 10000;        
+            this.offset = Math.random() * 10000;        
     }
     p.OnUpdate = function( event )
     {

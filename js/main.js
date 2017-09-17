@@ -1,4 +1,5 @@
 var baby;
+var gameTitle;
 var textOutput;
 var config = {
 	startingVelocity: new createjs.Point(0,5),
@@ -7,7 +8,8 @@ var config = {
 	babyFriction: .99,
 	touchIndicatorSize: 30,
 	gravity: .5,
-	rotationEase: .01
+	rotationEase: .01,
+	resetTime: 1000
 };
 var manifest = [
 		{src:"img/baby_small.png", id: "face"},
@@ -15,6 +17,9 @@ var manifest = [
 ];
 
 var applicationData;
+var isGameOver = true;
+var canReset = true;
+var hits = 0;
 
 function main()
 {
@@ -57,19 +62,23 @@ function applicationReady( event )
 		
 	var titleScale = new OscillateScaleComponent();
 		titleScale.amplitude = new createjs.Point( .01,.01);
-		titleScale.frequency = 5;
+		titleScale.frequency = 20;
 
 	var backgroundScale = new OscillateScaleComponent();
 		backgroundScale.amplitude = new createjs.Point( .01,.01);
 		backgroundScale.frequency = 5;
 
-	var gameTitle = new createjs.Text("DON'T DROP THE BABY!", "80 Comfortaa");
+		gameTitle = new createjs.Text("", "80 Comfortaa");
 		gameTitle.color = "#2e99c0";
 		gameTitle.outline = 10;
 		gameTitle.textAlign = "center";
 		gameTitle.textBaseline = "middle";
-		gameTitle.AddComponent( titleScale );
-		gameTitle.SetComponentsUpdate( true );
+		updateTitle();
+	
+	var titleContainer = new createjs.Container();
+		titleContainer.addChild( gameTitle );
+		titleContainer.AddComponent( titleScale );
+		titleContainer.SetComponentsUpdate( true );
 
 	var backgroundImg = applicationData.getResult("toy_1");
 	var background = new createjs.Shape();
@@ -100,17 +109,16 @@ function applicationReady( event )
 		baby.AddComponent( babyScale );
 		baby.SetComponentsUpdate( true );
 		baby.on("mousedown", babyHit, this);
+		baby.y = 1000;
 //		baby.on("onmousedown", babyHit, this );
 //		baby.mouseEnabled = true;
 	
 	baby.addChild( hitArea, babyFace);
-	container.addChild( gameTitle, baby );
+	container.addChild( titleContainer, baby );
 
-	
-
-	stage.addChild( background, textOutput );
+	stage.addChild( background );
 	stage.on("tick", update, this);
-	stage.setChildIndex( container, stage.getNumChildren()-1);	// put game on top
+	stage.setChildIndex( container, stage.numChildren-1);	// put game on top
 /*
 	// Keyboard
 
@@ -190,8 +198,28 @@ function babyHit( event )
 	
 	component = baby.GetComponent( SpinComponent );
 	component.targetRotation += angle + 360;
+
+	hits++;
+	updateTitle();
 }
 
+function updateTitle()
+{
+	var scaleAmount;
+	
+	if(hits <= 0)
+	{
+		gameTitle.text = "DON'T DROP THE BABY!";
+		scaleAmount = 1.1;
+	}else{
+		gameTitle.text = hits.toString();
+		scaleAmount = 4;
+	}
+
+	var tween = createjs.Tween.get(gameTitle, {loop: false})
+	.to({scaleX: scaleAmount, scaleY: scaleAmount}, 150, createjs.Ease.bounceIn)
+	.to({scaleX: 1, scaleY: 1}, 150, createjs.Ease.bounceOut);
+}
 function mouseMove( event )
 {
 	var component = baby.GetComponent( VelocityComponent );
@@ -199,13 +227,18 @@ function mouseMove( event )
 }
 
 function mouseDown( event )
-{			
+{	
+	resetGame();
+			
 	var mp = container.globalToLocal( stage.mouseX , stage.mouseY ) ;
 	var size = config.touchIndicatorSize;
+	var fade = new FadeComponent();
+		fade.autoDestroy = true;
+		fade.ease = .33;
 	var touch = new createjs.Shape();
-		touch.graphics.beginFill("Grey").drawCircle(0,0,size);
-		touch.AddComponent( new FadeComponent() );
-		//touch.AddComponent( new OscillateScaleComponent() );
+		touch.graphics.beginFill("#053648").drawCircle(0,0,size);
+		touch.AddComponent( fade );
+		touch.AddComponent( new OscillateScaleComponent() );
 		touch.SetComponentsUpdate( true );
 		touch.x = mp.x;
 		touch.y = mp.y;
@@ -237,16 +270,39 @@ function keyPressed( event )
 		console.log("space bar pressed");
 	}
 }
+function gameOver()
+{
+	if(isGameOver == false)
+		setTimeout(function(){ canReset = true; }, config.resetTime );
+
+	isGameOver = true;	
+}
+
+function resetGame()
+{
+	if( canReset == false)
+		return;
+
+	baby.y = stage.height * -.5 - config.babySize * .5;
+
+	var component = baby.GetComponent( VelocityComponent );
+		component.velocity.y = config.startingVelocity.y;
+		
+	canReset = false;
+	isGameOver = false;
+	hits = 0;
+	
+	updateTitle();
+}
 
 function update( event )
 {
 	var component = baby.GetComponent( VelocityComponent );
 	var halfWidth = config.babySize * .5;
 	
-	if(baby.y >= stage.height * .5 + halfWidth)
+	if(baby.y >= stage.height * .5 + config.babySize * 2 )
 	{
-		baby.y = stage.height * -.5 - halfWidth;
-		component.velocity.y = config.startingVelocity.y;
+		gameOver();
 	}
 	
 	if(baby.x <= stage.width * -.5 - halfWidth)
