@@ -213,6 +213,7 @@ function babyHit( event )
 
 	hits++;
 	updateTitle();
+	fireParticles( mp.x, mp.y );
 }
 
 function updateTitle()
@@ -280,6 +281,19 @@ function keyPressed( event )
 //			component.velocity.y += -20;
 			
 		console.log("space bar pressed");
+	}
+}
+
+function fireParticles( x, y )
+{
+	var amount = 30;
+	for(var i = 0; i < amount; i++)
+	{
+		var particle = new Particle();
+			particle.x = x;
+			particle.y = y;
+	
+		explosions.addChild( particle );		
 	}
 }
 
