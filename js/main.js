@@ -372,6 +372,8 @@ function resetGame()
 
 	var component = baby.GetComponent( VelocityComponent );
 		component.velocity.y = config.startingVelocity.y;
+		component = baby.GetComponent( SpinComponent );
+		component.targetRotation = 900 + Math.random() * 3000;
 
 	canReset = false;
 	isGameOver = false;
