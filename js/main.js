@@ -20,7 +20,8 @@ var config = {
 	numberScalePop: 8
 };
 var manifest = [
-		// {src:"audio/yuck.wav", id: "screaming"},
+		{src:"audio/background.mp3", id: "background"},
+		{src:"audio/woosh.mp3", id: "woosh"},
 		{src:"img/particle.png", id: "particle"},
 		{src:"img/toy_1.png", id: "toy_1"},
 		{src:"img/toy_2.png", id: "toy_2"},
@@ -47,6 +48,7 @@ function main()
 	
 	// Load Data
 	applicationData = new createjs.LoadQueue( false );
+	applicationData.installPlugin(createjs.Sound);
 	applicationData.on("complete", applicationReady, this);
 	applicationData.on("error", applicationError, this);
 	applicationData.loadManifest( manifest );
@@ -59,7 +61,7 @@ function applicationError( event )
 
 function applicationReady( event )
 {
-	//var screaming = createjs.Sound.play("screaming");
+	// var screaming = createjs.Sound.play("background", {loop:-1, volume: .3});		
 	//document.onkeydown = keyPressed;
 	
 	document.ontouchstart = ( mouseDown ).bind( this );
@@ -269,6 +271,9 @@ function babyHit( event )
 	updateTitle();
 	fireParticles( mp.x, mp.y, 30 );
 
+	// HIT SOUND
+	//var woosh = createjs.Sound.play("woosh", {loop:0, volume: 1});	
+
 	var tween = createjs.Tween.get(baby, {loop: false})
 	.to({scaleX: config.hitScale, scaleY: config.hitScale}, 150, createjs.Ease.bounceIn)
 	.to({scaleX: 1, scaleY: 1}, 150, createjs.Ease.bounceOut);	
@@ -298,6 +303,7 @@ function updateTitle()
 		scaleAmount = config.numberScalePop;
 	}
 
+	var woosh = createjs.Sound.play("woosh", {loop:0, volume: .6});	
 	var tween = createjs.Tween.get(gameTitle, {loop: false})
 	.to({scaleX: scaleAmount, scaleY: scaleAmount}, 200, createjs.Ease.bounceIn)
 	.to({scaleX: 1, scaleY: 1}, 150, createjs.Ease.bounceOut);
