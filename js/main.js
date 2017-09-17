@@ -18,12 +18,19 @@ function main()
 	var rotateBaby = new RotateComponent();
 	//var translateBaby = new TranslateComponent();
 	var velocityBaby = new VelocityComponent();
-
+		velocityBaby.friction = .99;
+	
+	var hitRadius = 90;
+	var hitArea = new createjs.Shape();
+		hitArea.graphics.beginFill("green").drawCircle(0,0,hitRadius);
+		
 		textOutput = new createjs.Text("","Arial 20px", "#000000");
 		textOutput.x = textOutput.y = 10;
 			
 		baby = new createjs.Shape();
-		baby.graphics.beginFill("red").rect(-30,-25,60,50);
+//		baby.graphics.beginFill("red").rect(-30,-25,60,50);
+		baby.graphics.beginFill("green").drawCircle(0,0,hitRadius);
+		//baby.hitArea = hitArea;
 		baby.AddComponent( rotateBaby );
 		baby.AddComponent( velocityBaby );
 		baby.SetComponentsUpdate( true );
@@ -98,11 +105,17 @@ function babyHit( event )
 {
 	var force = 50;
 	var mp = container.globalToLocal( stage.mouseX , stage.mouseY );
-	var angle = baby.GetPosition().degreesTo( mp );	  
-	
+	var subtract = new createjs.Point( mp.x,mp.y).subtract(baby.GetPosition());
+		subtract = subtract.normalized();
+	//var dist = createjs.Point.distance(dist, baby.GetPosition());
+	//console.log( dist );
+
+//	var angle = new createjs.Point(mp.x,mp.y).degreesTo( baby.GetPosition() );	  
 	var component = baby.GetComponent( VelocityComponent );
-		component.velocity.y += Math.sin( angle ) * force;
-		component.velocity.x += Math.cos( angle ) * force
+//		component.velocity.y += Math.sin( angle ) * force;
+//		component.velocity.x += Math.cos( angle ) * force
+	component.velocity.x -= subtract.x * force; 
+	component.velocity.y -= subtract.y * force;
 }
 
 function mouseMove( event )
@@ -118,7 +131,7 @@ function mouseDown( event )
 	var touch = new createjs.Shape();
 		touch.graphics.beginFill("Grey").drawCircle(0,0,size);
 		touch.AddComponent( new FadeComponent() );
-		touch.AddComponent( new OscillateScaleComponent() );
+		//touch.AddComponent( new OscillateScaleComponent() );
 		touch.SetComponentsUpdate( true );
 		touch.x = mp.x;
 		touch.y = mp.y;
@@ -153,13 +166,24 @@ function keyPressed( event )
 
 function update( event )
 {
+	var component = baby.GetComponent( VelocityComponent );
+	
 	if(baby.y >= stage.height * .5)
 	{
-		baby.y = 0;
+		baby.y = stage.height * -.5;
+		component.velocity.y = 20;
+		component.velocity.x = 0;
 	}
 	
-	var component = baby.GetComponent( VelocityComponent );
-		component.velocity.y += 1;
+	if(baby.x < stage.width * -.5)
+	{
+		baby.x = stage.width * .5;
+	}else if(baby.x > stage.width* .5)
+	{
+		baby.x = stage.width * -.5;
+	}
+
+	component.velocity.y += .5;
 	textOutput.Debug( component.velocity.y );
 	
 	//textOutput.Debug( baby.y );
