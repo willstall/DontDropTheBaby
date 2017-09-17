@@ -38,7 +38,6 @@ function main()
 	applicationData.loadManifest( manifest );
 }
 
-
 function applicationError( event )
 {
 	console.log( event.data );
@@ -124,6 +123,9 @@ function applicationReady( event )
 	stage.addChild( background );
 	stage.on("tick", update, this);
 	stage.setChildIndex( container, stage.numChildren-1);	// put game on top
+
+	//testing
+	explodeBaby();
 /*
 	// Keyboard
 
@@ -275,9 +277,30 @@ function keyPressed( event )
 		console.log("space bar pressed");
 	}
 }
+
+function explodeBaby()
+{
+	var partsData = [
+		{img: "part_1", size: 128},
+		{img: "part_2", size: 128},
+		{img: "part_3", size: 128},
+		{img: "part_4", size: 128},
+		{img: "part_5", size: 128}
+	]
+	for(var i = 0; i < partsData.length; i++)
+	{
+		var partData = partsData[i];
+		var part = new Part(partData.img, partData.size);
+			part.x = baby.x;
+			part.y = stage.height * .5 + partData.size;
+		container.addChild( part );		
+	}
+}
+
 function gameOver()
 {
 	if(isGameOver == false)
+		explodeBaby();
 		setTimeout(function(){
 			canReset = true;
 			hits = 0;
@@ -309,7 +332,7 @@ function update( event )
 	var halfWidth = config.babySize * .5;
 	
 	if(baby.y >= stage.height * .5 + config.babySize * 2 )
-	{
+	{		
 		gameOver();
 	}
 	
