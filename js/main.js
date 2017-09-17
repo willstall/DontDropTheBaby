@@ -13,7 +13,7 @@ var config = {
 	resetTime: 1500
 };
 var manifest = [
-		{src:"audio/yuck.wav", id: "screaming"},
+		// {src:"audio/yuck.wav", id: "screaming"},
 		{src:"img/particle.png", id: "particle"},
 		{src:"img/toy_1.png", id: "toy_1"},
 		{src:"img/toy_2.png", id: "toy_2"},
@@ -52,7 +52,8 @@ function applicationError( event )
 
 function applicationReady( event )
 {
-	document.onkeydown = keyPressed;
+	//var screaming = createjs.Sound.play("screaming");
+	//document.onkeydown = keyPressed;
 	
 	document.ontouchstart = ( mouseDown ).bind( this );
 //	document.ontouchend = ( mouseUp ).bind( this );
@@ -105,10 +106,6 @@ function applicationReady( event )
 		background.AddComponent( backgroundScale );
 		background.SetComponentsUpdate( true );
 
-	// var img = applicationData.getResult("face");	
-	// var babyFace = new createjs.Bitmap( img.src );
-		// babyFace.regX = babyFace.regY = 256;
-
 	var hitRadius = config.babySize;
 	var hitArea = new createjs.Shape();
 		hitArea.graphics.beginFill("green").drawCircle(0,0,hitRadius).
@@ -116,21 +113,23 @@ function applicationReady( event )
 		
 		textOutput = new createjs.Text("","20pt Arial", "#000000");
 		textOutput.x = textOutput.y = 10;
-			
+
 		baby = new Baby();
-//		baby.graphics.beginFill("red").rect(-30,-25,60,50);
-		
-		//baby.hitArea = hitArea;
 		baby.AddComponent( spinBaby );
 		baby.AddComponent( velocityBaby );
 		baby.AddComponent( babyScale );
 		baby.SetComponentsUpdate( true );
 		baby.on("mousedown", babyHit, this);
 		baby.y = 1000;
-//		baby.on("onmousedown", babyHit, this );
-//		baby.mouseEnabled = true;
+
+	var offset = new SpringComponent();
+		offset.target = baby;
+
+	var babyBody = new BabyBody();
+		babyBody.AddComponent( offset );
+		babyBody.SetComponentsUpdate( true );
 	
-	container.addChild( titleContainer, explosions, baby );
+	container.addChild( titleContainer, explosions, babyBody, baby );
 	// container.addChild( testBaby );
 
 	stage.addChild( background );

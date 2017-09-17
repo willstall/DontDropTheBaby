@@ -1,3 +1,71 @@
+// private var ball:Ball;
+// private var spring:Number = 0.1;
+// private var vx:Number = 0;
+// private var vy:Number = 0;
+// private var friction:Number = 0.95;
+// private var springLength:Number = 100;
+
+// public function OffsetSpring()
+// {
+//     init();
+// }
+
+// private function init():void
+// {
+//     ball = new Ball(20);
+//     addChild(ball);
+//     addEventListener(Event.ENTER_FRAME, onEnterFrame);
+// }
+
+
+// private function onEnterFrame(event:Event):void
+// {
+//     var dx:Number = ball.x - mouseX;
+//     var dy:Number = ball.y - mouseY;
+//     var angle:Number = Math.atan2(dy, dx);
+//     var targetX:Number = mouseX + Math.cos(angle) * springLength;
+//     var targetY:Number = mouseY + Math.sin(angle) * springLength;
+//     vx += (targetX - ball.x) * spring;
+//     vy += (targetY - ball.y) * spring;
+//     vx *= friction;
+//     vy *= friction;
+//     ball.x += vx;
+//     ball.y += vy;
+//     graphics.clear();
+//     graphics.lineStyle(1);
+//     graphics.moveTo(ball.x, ball.y);
+//     graphics.lineTo(mouseX, mouseY);
+
+
+// OFFSET SPRING COMPONENT
+    function SpringComponent()
+    {
+        this.distance = 1;
+        this.friction = 0.95;
+        this.spring = .1;
+        this.velocity = new createjs.Point();
+    }
+    var p = createjs.extend( SpringComponent, Component );
+    p.OnUpdate = function( event )
+    {
+        if( this.target == null)
+            return;
+
+        //var sub = this.GetPostion().subtract( target.GetPostion());
+            //sub = subtract.normalized();
+        var pos = this.parent.GetPosition();
+        var targetPos = this.target.GetPosition();
+        var angle = pos.degreesTo( targetPos );
+        var targetX = pos.x + Math.cos(angle) * this.distance;
+        var targetY = pos.y + Math.sin(angle) * this.distance;
+        this.velocity.x += (targetX - targetPos.x) * this.spring;
+        this.velocity.y += (targetY - targetPos.y) * this.spring;
+        this.velocity.x *= this.friction;
+        this.velocity.y *= this.friction;
+        this.parent.x += this.velocity.x;
+        this.parent.y += this.velocity.y;
+    }
+
 // FADE COMPONENT
   function FadeComponent()
   {
