@@ -1,6 +1,12 @@
 var baby;
 var textOutput;
-
+var config = {
+	startingVelocity: new createjs.Point(0,5),
+	babySize: 90,
+	hitForce: 50,
+	babyFriction: .99,
+	touchIndicatorSize: 30
+};
 function main()
 {
 	// Setup
@@ -18,9 +24,9 @@ function main()
 	var rotateBaby = new RotateComponent();
 	//var translateBaby = new TranslateComponent();
 	var velocityBaby = new VelocityComponent();
-		velocityBaby.friction = .99;
+		velocityBaby.friction = config.babyFriction;
 	
-	var hitRadius = 90;
+	var hitRadius = config.babySize;
 	var hitArea = new createjs.Shape();
 		hitArea.graphics.beginFill("green").drawCircle(0,0,hitRadius);
 		
@@ -103,7 +109,7 @@ function main()
 
 function babyHit( event )
 {
-	var force = 50;
+	var force = config.hitForce;
 	var mp = container.globalToLocal( stage.mouseX , stage.mouseY );
 	var subtract = new createjs.Point( mp.x,mp.y).subtract(baby.GetPosition());
 		subtract = subtract.normalized();
@@ -127,7 +133,7 @@ function mouseMove( event )
 function mouseDown( event )
 {			
 	var mp = container.globalToLocal( stage.mouseX , stage.mouseY ) ;
-	var size = 60;
+	var size = config.touchIndicatorSize;
 	var touch = new createjs.Shape();
 		touch.graphics.beginFill("Grey").drawCircle(0,0,size);
 		touch.AddComponent( new FadeComponent() );
@@ -171,8 +177,7 @@ function update( event )
 	if(baby.y >= stage.height * .5)
 	{
 		baby.y = stage.height * -.5;
-		component.velocity.y = 20;
-		component.velocity.x = 0;
+		component.velocity = config.startingVelocity;
 	}
 	
 	if(baby.x < stage.width * -.5)
