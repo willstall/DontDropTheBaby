@@ -35,7 +35,8 @@ function main()
 			
 		baby = new createjs.Shape();
 //		baby.graphics.beginFill("red").rect(-30,-25,60,50);
-		baby.graphics.beginFill("green").drawCircle(0,0,hitRadius);
+		baby.graphics.beginFill("green").drawCircle(0,0,hitRadius).
+			moveTo(0,0).beginFill("red").drawRect(-hitRadius,-hitRadius*.25,hitRadius*2,hitRadius*.5);
 		//baby.hitArea = hitArea;
 		baby.AddComponent( rotateBaby );
 		baby.AddComponent( velocityBaby );
