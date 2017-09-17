@@ -22,6 +22,8 @@ var config = {
 var manifest = [
 		{src:"audio/background.mp3", id: "background"},
 		{src:"audio/woosh.mp3", id: "woosh"},
+		{src:"audio/explosion.mp3", id: "explosion"},
+		{src:"audio/explosion_hit.mp3", id: "explosionHit"},
 		{src:"img/particle.png", id: "particle"},
 		{src:"img/toy_1.png", id: "toy_1"},
 		{src:"img/toy_2.png", id: "toy_2"},
@@ -40,6 +42,7 @@ var isGameOver = true;
 var canReset = true;
 var hits = 0;
 var gameOverTimer = 0;
+var explosionSound;
 
 function main()
 {
@@ -242,6 +245,8 @@ function applicationReady( event )
 }
 function babyHit( event )
 {
+
+
 	var force = config.hitForce;
 	var mp = container.globalToLocal( stage.mouseX , stage.mouseY );
 	var subtract = mp.subtract(baby.GetPosition());
@@ -268,15 +273,21 @@ function babyHit( event )
 	// component.targetRotation += angle + 900;
 	
 	hits++;
-	updateTitle();
-	fireParticles( mp.x, mp.y, 30 );
+
+	fireParticles( mp.x, mp.y, 20 );
+
+	if(explosionSound == null)
+	explosionSound = createjs.Sound.play("explosion", {loop:0, volume: 1,delay:1000});
+else
+	explosionSound.play();
 
 	// HIT SOUND
-	//var woosh = createjs.Sound.play("woosh", {loop:0, volume: 1});	
+		
+	updateTitle();
 
 	var tween = createjs.Tween.get(baby, {loop: false})
 	.to({scaleX: config.hitScale, scaleY: config.hitScale}, 150, createjs.Ease.bounceIn)
-	.to({scaleX: 1, scaleY: 1}, 150, createjs.Ease.bounceOut);	
+	.to({scaleX: 1, scaleY: 1}, 150, createjs.Ease.bounceOut);
 }
 
 function getRandomColor()
@@ -303,7 +314,7 @@ function updateTitle()
 		scaleAmount = config.numberScalePop;
 	}
 
-	var woosh = createjs.Sound.play("woosh", {loop:0, volume: .6});	
+	var woosh = createjs.Sound.play("woosh", {loop:0, volume: .15});	
 	var tween = createjs.Tween.get(gameTitle, {loop: false})
 	.to({scaleX: scaleAmount, scaleY: scaleAmount}, 200, createjs.Ease.bounceIn)
 	.to({scaleX: 1, scaleY: 1}, 150, createjs.Ease.bounceOut);
@@ -332,6 +343,8 @@ function mouseDown( event )
 		touch.x = mp.x;
 		touch.y = mp.y;
 	container.addChild( touch );
+
+	var explosion = createjs.Sound.play("explosionHit", {loop:0, volume: .2});
 }
 
 function mouseUp( event )
