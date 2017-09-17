@@ -1,6 +1,7 @@
 var stage;
 var container;
 var canvas;
+var ratio;
 
 function setup()
 {
@@ -59,7 +60,7 @@ function retinalize()
 {
     var originalCanvasWidth = this.canvas.width;
     var originalCanvasHeight = this.canvas.height;
-    var ratio = window.devicePixelRatio;
+    ratio = window.devicePixelRatio;
 
     if (ratio === undefined)
         return;

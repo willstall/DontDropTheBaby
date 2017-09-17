@@ -82,6 +82,13 @@ function applicationReady( event )
 		//gameTitle.outline = 10;
 		gameTitle.textAlign = "center";
 		gameTitle.textBaseline = "middle";
+		if (ratio === undefined)
+		{
+
+		}else{
+			gameTitle.scaleX = gameTitle.scaleY = ratio;
+		}
+        
 		updateTitle();
 
 		explosions = new createjs.Container();
