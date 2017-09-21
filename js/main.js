@@ -5,6 +5,7 @@ var gameTitle;
 var textOutput;
 var explosions;
 // var trail1;
+/*
 var config = {
 	startingVelocity: new createjs.Point(0,5),
 	babySize: 90,
@@ -17,8 +18,27 @@ var config = {
 	hairRotationEase: .03,
 	resetTime: 1500,
 	hitScale: 3,
-	numberScalePop: 8
+	numberScalePop: 8,
+	softServeGravity: 0
 };
+*/
+
+var config = {
+	startingVelocity: new createjs.Point(0,5),
+	babySize: 90,
+	hitForce: 40,
+	babyFriction: .99,
+	touchIndicatorSize: 30,
+	gravity: 0.4,
+	rotationEase: .01,
+	bodyRotationEase: .01,
+	hairRotationEase: .03,
+	resetTime: 1500,
+	hitScale: 3,
+	numberScalePop: 8,
+	softServeGravity: 0.1
+};
+
 var manifest = [
 		// {src:"audio/background.mp3", id: "background"},
 		// {src:"audio/woosh.mp3", id: "woosh", data: 1},
@@ -42,6 +62,8 @@ var manifest = [
 var applicationData;
 var isGameOver = true;
 var canReset = true;
+var softServed = false;
+var currentGravity = 0;
 var hits = 0;
 var gameOverTimer = 0;
 var clickSound;
@@ -295,10 +317,14 @@ function babyHit( event )
 	// HIT SOUND
 		
 	updateTitle();
-
-	var tween = createjs.Tween.get(baby, {loop: false})
-	.to({scaleX: config.hitScale, scaleY: config.hitScale}, 150, createjs.Ease.bounceIn)
-	.to({scaleX: 1, scaleY: 1}, 150, createjs.Ease.bounceOut);
+	baby.Hit();
+	
+	// check soft serve ice cream
+	if( softServed == false)
+	{
+		softServed == true;
+		currentGravity = config.gravity;
+	}
 }
 
 function getRandomColor()
@@ -460,14 +486,18 @@ function resetGame()
 		return;
 
 	baby.y = stage.height * -.5 - config.babySize * .5;
-
+	baby.x = 0;
+	
 	var component = baby.GetComponent( VelocityComponent );
 		component.velocity.y = config.startingVelocity.y;
+		component.velocity.x = 0;
 		component = baby.GetComponent( SpinComponent );
 		component.targetRotation = 900 + Math.random() * 3000;
 
 	canReset = false;
 	isGameOver = false;
+	softServed = false;
+	currentGravity = config.softServeGravity;
 	
 	updateTitle();
 }
@@ -496,7 +526,7 @@ function update( event )
 		baby.x = stage.width * -.5 - halfWidth;
 	}
 
-	component.velocity.y += config.gravity;
+	component.velocity.y += currentGravity;
 	textOutput.Debug( component.velocity.y );
 	
 	//textOutput.Debug( baby.y );

@@ -135,6 +135,14 @@
     
             // component.velocity.y += this.gravity;         
         }
+        p.Hit = function()
+        {
+          this.mouseEnabled = false;
+          var tween = createjs.Tween.get(baby, {loop: false})
+          	.to({scaleX: config.hitScale, scaleY: config.hitScale}, 150, createjs.Ease.bounceIn)
+          	.to({scaleX: 1, scaleY: 1, mouseEnabled: true}, 150, createjs.Ease.bounceOut);
+          	//.call({this.mouseEnabled = true;}, this);
+        }
         p.Destroy = function()
         {
             this.SetComponentsUpdate( false );
