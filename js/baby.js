@@ -67,7 +67,16 @@
             mouth.regX = mouth.regY = 124;
             mouth.y = 12;
             mouth.AddComponent( mouthScale );
-            mouth.SetComponentsUpdate( true );    
+            mouth.SetComponentsUpdate( true );
+            
+            
+            
+        var hitarea = new createjs.Shape();
+          hitarea.graphics.beginFill("#FF0000").drawCircle(0,0,config.hitareaSize);
+         
+         
+         this.hitArea = hitarea; 
+
         // var body = new createjs.Bitmap( applicationData.getResult( "part_1" ).src );
         //     body.regX = body.regY = 64;    
         // var pants = new createjs.Bitmap( applicationData.getResult( "part_2" ).src );   

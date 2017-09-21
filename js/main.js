@@ -9,6 +9,7 @@ var explosions;
 var config = {
 	startingVelocity: new createjs.Point(0,5),
 	babySize: 90,
+	hitareaSize: 120,	
 	hitForce: 50,
 	babyFriction: .99,
 	touchIndicatorSize: 30,
@@ -26,6 +27,7 @@ var config = {
 var config = {
 	startingVelocity: new createjs.Point(0,5),
 	babySize: 90,
+	hitareaSize: 160,
 	hitForce: 40,
 	babyFriction: .99,
 	touchIndicatorSize: 30,
