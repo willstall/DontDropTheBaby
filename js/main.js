@@ -39,7 +39,7 @@ var config = {
 	resetTime: 1500,
 	hitScale: 3,
 	numberScalePop: 8,
-	softServeGravity: 0.1
+	softServeGravity: 0.2
 };
 
 var manifest = [

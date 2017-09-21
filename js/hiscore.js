@@ -11,7 +11,7 @@
         
         this.display = new createjs.Text(this.score, "20px Dosis");
         this.display.textAlign = "right";
-        this.display.color = "#053648"        
+        this.display.color = "#fc5267"        
         this.display.y = 20;
         this.textBaseline = "top";        
         
