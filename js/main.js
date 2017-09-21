@@ -4,6 +4,7 @@ var hair;
 var gameTitle;
 var textOutput;
 var explosions;
+var hiscore;
 // var trail1;
 /*
 var config = {
@@ -200,11 +201,16 @@ function applicationReady( event )
 	// 	b: 72,
 	// 	a: 1
 	// }]);
-
+	
+	var hiscorePadding = 10;
+	hiscore = new Hiscore();
+	hiscore.x = stage.width - hiscorePadding;
+	hiscore.y = hiscorePadding;
+	
 	container.addChild( titleContainer, explosions, babyBody, baby ); //,hair
 	// container.addChild( testBaby );
 
-	stage.addChild( background );
+	stage.addChild( background, hiscore );
 	stage.on("tick", update, this);
 	stage.setChildIndex( container, stage.numChildren-1);	// put game on top
 
@@ -476,6 +482,7 @@ function gameOverUpdate( event )
 
 function gameOver()
 {
+	hiscore.UpdateScore( hits );
 	canReset = true;
 	hits = 0;
 	gameOverTimer = 0;
