@@ -1,3 +1,5 @@
+[![The Baby](img/baby_small.png)](https://willstall.github.io/DontDropTheBaby/)
+
 # Don't Drop the Baby! [Play it!](https://willstall.github.io/DontDropTheBaby/) 
 This tiny little nugget of happiness was created entirely on an iPad in just under 24hrs for Philadelphia's Yearly Game Jam in 2018. The theme of this particular jam was Parenting. I am obviously a terrible parent.
 
