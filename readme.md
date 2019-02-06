@@ -7,7 +7,7 @@ This tiny little nugget of happiness was created entirely on an iPad in just und
 I created this game using just an iPad over the course of 24hrs. One of the major hurdles was debugging, so my very first task was to create a quake-style drop-down javascript debugger so I could execute code and see errors.
 
 ## Scaffold
-I love using [CreateJS](https://github.com/CreateJS/CreateJS) for these tiny little projects, but I also don't love starting from nothing, [heres my Scaffolding](https://github.com/willstall/CreateJSScaffold)
+I love using [CreateJS](https://github.com/CreateJS/CreateJS) for these tiny little projects, but I also don't love starting from scratch... [heres my Scaffolding](https://github.com/willstall/CreateJSScaffold)
 
 ## iPad Programs
 
